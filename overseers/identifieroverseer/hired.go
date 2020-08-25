@@ -1,7 +1,7 @@
 package identifieroverseer
 
 import (
-	"github.com/herb-go/herb/user/httpuser"
+	"github.com/herb-go/deprecated/httpuser"
 	"github.com/herb-go/worker"
 )
 
