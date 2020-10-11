@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/herb-go/herb/model/sql/db"
+	"github.com/herb-go/datasource/sql/db"
 
 	"github.com/herb-go/herb/cache"
 )

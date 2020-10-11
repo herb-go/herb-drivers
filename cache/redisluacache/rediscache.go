@@ -10,7 +10,7 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/herb-go/herb/cache"
-	"github.com/herb-go/herb/model/redis/redispool"
+	"github.com/herb-go/datasource/redis/redispool"
 )
 
 var defaultGcPeriod = 30 * time.Second
