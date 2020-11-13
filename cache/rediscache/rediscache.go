@@ -4,12 +4,11 @@ package rediscache
 
 import (
 	"strconv"
-	"sync"
 	"time"
 
 	"github.com/gomodule/redigo/redis"
-	"github.com/herb-go/herb/cache"
 	"github.com/herb-go/datasource/redis/redispool"
+	"github.com/herb-go/herb/cache"
 )
 
 var defaultSepartor = string(0)
@@ -21,16 +20,11 @@ const modeUpdate = 1
 type Cache struct {
 	cache.DriverUtil
 	Pool           *redis.Pool //Redis pool.
-	ticker         *time.Ticker
 	name           string
 	quit           chan int
-	gcErrHandler   func(err error)
-	gcLimit        int64
 	network        string
 	address        string
 	password       string
-	version        string
-	versionLock    sync.Mutex
 	db             int
 	connectTimeout time.Duration
 	readTimeout    time.Duration
