@@ -114,12 +114,17 @@ func (s *CloudObjectStorage) Save(filename string, reader io.Reader) (string, in
 	if err != nil {
 		return "", 0, err
 	}
-	resp, err := s.App.Clients.Fetch(req)
+	resp, err := s.App.Client.Do(req)
 	if err != nil {
 		return "", 0, err
 	}
+	BodyContent, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", 0, err
+	}
+	resp.Body.Close()
 	if resp.StatusCode != 200 {
-		return "", 0, errors.New(resp.Status + string(resp.BodyContent))
+		return "", 0, errors.New(resp.Status + string(BodyContent))
 	}
 	return filename, size, nil
 }
@@ -132,7 +137,7 @@ func (s *CloudObjectStorage) Load(id string) (io.ReadCloser, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := s.App.Clients.Client().Do(req)
+	resp, err := s.App.Client.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -158,13 +163,17 @@ func (s *CloudObjectStorage) Remove(id string) error {
 	if err != nil {
 		return err
 	}
-	resp, err := s.App.Clients.Fetch(req)
+	resp, err := s.App.Client.Do(req)
+	if err != nil {
+		return err
+	}
+	BodyContent, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 204 {
-		return errors.New(resp.Status + string(resp.BodyContent))
+		return errors.New(resp.Status + string(BodyContent))
 	}
 	return err
 }
