@@ -1,7 +1,7 @@
-package cacheproxyoverseer
+package nestedcacheoverseer
 
 import (
-	"github.com/herb-go/deprecated/cache"
+	"github.com/herb-go/datamodules/ncache/builderconfig"
 	"github.com/herb-go/worker"
 )
 
@@ -11,28 +11,27 @@ type Config struct {
 
 //ApplyTo apply config to overseer
 func (c *Config) ApplyTo(o *worker.PlainOverseer) error {
-	o.WithIntroduction("Cacheproxy workers")
+	o.WithIntroduction("NestedCache workers")
 	o.WithTrainFunc(func(w []*worker.Worker) error {
 		for _, v := range w {
-			proxy := GetCacheProxyByID(v.Name)
-			if proxy == nil {
+			cache := GetNestedCacheByID(v.Name)
+			if cache == nil {
 				continue
 			}
 			t := worker.GetTranning(v.Name)
 			if t == nil {
 				continue
 			}
-			config := &cache.OptionConfig{}
+			config := &builderconfig.BuildConfig{}
 			err := t.TranningPlan(config)
 			if err != nil {
 				return err
 			}
-			proxycache := cache.New()
-			err = config.ApplyTo(proxycache)
+			builders, err := config.CreateBuilders()
 			if err != nil {
 				return err
 			}
-			proxy.Cacheable = proxycache
+			cache.WithBuilder(builders...)
 		}
 		return nil
 	})

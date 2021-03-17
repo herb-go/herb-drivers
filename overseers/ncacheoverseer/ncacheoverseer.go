@@ -1,4 +1,4 @@
-package cacheoverseer
+package ncacheoverseer
 
 import "github.com/herb-go/worker"
 
@@ -8,7 +8,7 @@ type Config struct {
 
 //ApplyTo apply config to overseer
 func (c *Config) ApplyTo(o *worker.PlainOverseer) error {
-	o.WithIntroduction("Cache workers")
+	o.WithIntroduction("Ncache workers")
 	return nil
 }
 
