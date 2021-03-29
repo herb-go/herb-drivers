@@ -1,19 +1,19 @@
-package ncacheoverseer
+package herbcacheoverseer
 
 import (
-	"github.com/herb-go/datamodules/ncache"
+	"github.com/herb-go/datamodules/herbcache"
 	"github.com/herb-go/worker"
 )
 
-var cacheworker = ncache.New()
+var cacheworker = herbcache.New()
 var Team = worker.GetWorkerTeam(&cacheworker)
 
-func GetCacheByID(id string) *ncache.Cache {
+func GetCacheByID(id string) *herbcache.Cache {
 	w := worker.FindWorker(id)
 	if w == nil {
 		return nil
 	}
-	c, ok := w.Interface.(**ncache.Cache)
+	c, ok := w.Interface.(**herbcache.Cache)
 	if ok == false || c == nil {
 		return nil
 	}
